@@ -41,11 +41,11 @@ nohup datasets rehydrate --directory ./ > Genomes_download.process 2>&1 &
 # (base) shichuang001@login02 Sat Sep 12 2026 11:34:55 ~/jlkang/Sexchange/Genomes/ncbi_dataset/data
 # 只下载了一部分就停了，检查一下哪些下载好了，没下载好了把它删除
 perl Check_download_status.pl
+# (base) shichuang001@login02 Sat Sep 12 2026 11:34:55 ~/jlkang/Sexchange/Genomes/ncbi_dataset/
 # 修改fetch.txt，已经下载好了的不要再下载，然后再重新下载
 perl Redownload.pl > fetch.txt.2
 # 把之前的fetch.txt改一下名字，防止重复下载
-mv fetch.txt fetch_before.txt
-mv fetch.txt.2 fetch.txt
+mv fetch.txt fetch_before.txt; mv fetch.txt.2 fetch.txt
 # (ncbi_datasets) shichuang001@login01 Sat Sep 12 2026 11:33:39 ~/jlkang/Sexchange/Genomes
 nohup datasets rehydrate --directory ./ > Genomes_download.process 2>&1 &
 # [1] 346475
