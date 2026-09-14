@@ -56,4 +56,6 @@ perl Change_name.pl
 # 移除掉有gtf文件的基因组，然后压缩
 mv Xyrichtys_novacula.fa Xyrichtys_novacula.gtf ../
 tar -zcvf Genomes.tar.gz *.fa
+# 有一些基因组太小了，可能没有下载完整，重新下载
+
 ```
