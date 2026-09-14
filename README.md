@@ -64,5 +64,6 @@ conda create -n bioinfo
 conda activate bioinfo
 conda install -c bioconda seqkit
 datasets summary genome accession --inputfile accessions.txt --as-json-lines | dataformat tsv genome --fields accession,organism-name,assmstats-total-sequence-len > Total_length.txt
-
+perl compare_length_1.pl > Compare_Tlenth.txt
+perl compare_length_2.pl > Compare_Tlenth_new.txt
 ```
