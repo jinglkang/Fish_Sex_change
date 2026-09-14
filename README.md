@@ -66,4 +66,6 @@ conda install -c bioconda seqkit
 datasets summary genome accession --inputfile accessions.txt --as-json-lines | dataformat tsv genome --fields accession,organism-name,assmstats-total-sequence-len > Total_length.txt
 perl compare_length_1.pl > Compare_Tlenth.txt
 perl compare_length_2.pl > Compare_Tlenth_new.txt
+# 有13个没下载完整（>），16个反而多了（<），41个下载完整了
+# 服务器里md5sum -c 文件名：校验文件是否下载完整
 ```
