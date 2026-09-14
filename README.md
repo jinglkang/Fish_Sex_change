@@ -57,5 +57,10 @@ perl Change_name.pl
 mv Xyrichtys_novacula.fa Xyrichtys_novacula.gtf ../
 tar -zcvf Genomes.tar.gz *.fa
 # 有一些基因组太小了，可能没有下载完整，重新下载
-
+# 得确认下基因组是否下载完整
+# kangjingliang@KangdeMacBook-Pro-2 一  9 14 2026 15:33:41 ~/Desktop/Genomes
+conda create -n bioinfo
+# (base) kangjingliang@KangdeMacBook-Pro-2 一  9 14 2026 15:37:06 ~/Desktop/Genomes
+conda activate bioinfo
+conda install -c bioconda seqkit
 ```
