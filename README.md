@@ -50,7 +50,7 @@ mv fetch.txt fetch_before.txt; mv fetch.txt.2 fetch.txt
 nohup datasets rehydrate --directory ./ > Genomes_download.process 2>&1 &
 # [1] 346475
 
-# 更改基因组文件名字
+# 更改基因组文件名字: 根据物种和ncbi id的对应关系（speces_list.txt）
 # kangjingliang@KangdeMacBook-Pro-2 一  9 14 2026 12:18:26 ~/Desktop/Genomes/ncbi_dataset/data
 perl Change_name.pl
 ```
