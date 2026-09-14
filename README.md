@@ -53,4 +53,7 @@ nohup datasets rehydrate --directory ./ > Genomes_download.process 2>&1 &
 # 更改基因组文件名字: 根据物种和ncbi id的对应关系（speces_list.txt）
 # kangjingliang@KangdeMacBook-Pro-2 一  9 14 2026 12:18:26 ~/Desktop/Genomes/ncbi_dataset/data
 perl Change_name.pl
+# 移除掉有gtf文件的基因组，然后压缩
+mv Xyrichtys_novacula.fa Xyrichtys_novacula.gtf ../
+tar -zcvf Genomes.tar.gz *.fa
 ```
