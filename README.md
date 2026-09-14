@@ -63,4 +63,6 @@ conda create -n bioinfo
 # (base) kangjingliang@KangdeMacBook-Pro-2 一  9 14 2026 15:37:06 ~/Desktop/Genomes
 conda activate bioinfo
 conda install -c bioconda seqkit
+datasets summary genome accession --inputfile accessions.txt --as-json-lines | dataformat tsv genome --fields accession,organism-name,assmstats-total-sequence-len > Total_length.txt
+
 ```
