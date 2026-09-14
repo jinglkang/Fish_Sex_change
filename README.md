@@ -49,4 +49,8 @@ mv fetch.txt fetch_before.txt; mv fetch.txt.2 fetch.txt
 # (ncbi_datasets) shichuang001@login01 Sat Sep 12 2026 11:33:39 ~/jlkang/Sexchange/Genomes
 nohup datasets rehydrate --directory ./ > Genomes_download.process 2>&1 &
 # [1] 346475
+
+# 更改基因组文件名字
+# kangjingliang@KangdeMacBook-Pro-2 一  9 14 2026 12:18:26 ~/Desktop/Genomes/ncbi_dataset/data
+perl Change_name.pl
 ```
