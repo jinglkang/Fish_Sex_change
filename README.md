@@ -77,4 +77,9 @@ datasets summary genome taxon --inputfile species.txt \
 dataformat tsv genome \
 --fields accession,assminfo-name,assminfo-level,assmstats-total-number-of-chromosomes,assmstats-number-of-scaffolds,assmstats-total-sequence-len,assmstats-contig-n50,assmstats-scaffold-n50,annotinfo-status,organism-name \
 > genomes.tsv
+
+# 安装RERconverge
+# (base) shichuang001@login01 Tue Sep 15 2026 20:57:45 ~
+conda create -n RERconverge
+conda activate RERconverge
 ```
