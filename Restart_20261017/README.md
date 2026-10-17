@@ -11,6 +11,18 @@ perl Extract_longest_pep.pl
 比较提取前后蛋白数量发现，提取完最长蛋白的数量居然是一致的。这是因为注释软件Helixer的设计目标是预测每个基因的主要基因模型，通常每个基因只输出一个转录本模型，并不专门预测可变剪接产生的多个isoform
 ```bash
 perl Compare_pep_nb.pl
+# 既然数量不变，直接拷贝至longest_nuc/
+perl cp_nuc.pl
+# 再验证一下，看mRNA数量是否跟基因数量一致，假如一致的话，证实每一个基因确实只有一个转录本
+# 检验Amphiprion_percula
+
+# (base) shichuang001@login01 Sat Oct 17 2026 23:10:03 ~/jlkang/genome_and_gff/all_50
+less GCA_003047355.2.gff3 |perl -alne 'if ($F[2] eq "mRNA"){print}'|wc -l
+# 28400
+
+less GCA_003047355.2.gff3 |perl -alne 'if ($F[2] eq "gene"){print}'|wc -l
+# 28400
+# 证明基因数跟转录本数目一致，只有一个转录本，因此其实没有必要筛
 ```
 
 ```txt
@@ -121,3 +133,17 @@ GCF_964276395.1	Gasterosteus_aculeatus	59192	22929
 GCF_965226575.1	Pagrus_pagrus	44931	24345
 ```
 
+把最长的nuc和pep放入一个目录里面
+```bash
+# (base) shichuang001@login01 Sat Oct 17 2026 23:14:27 ~/jlkang/genome_and_gff
+mkdir sex_change; cd sex_change
+mv ~/jlkang/genome_and_gff/all_50/busco/longest_nuc/ ./
+mv ~/jlkang/genome_and_gff/all_50/busco/longest_pep/ ./
+cd longest_nuc
+# (base) shichuang001@login01 Sat Oct 17 2026 23:16:48 ~/jlkang/genome_and_gff/sex_change/longest_nuc
+mv ~/jlkang/genome_and_gff/others/longest_nuc/*.fas ./
+# (base) shichuang001@login01 Sat Oct 17 2026 23:17:15 ~/jlkang/genome_and_gff/sex_change/longest_nuc
+cd ../longest_pep/
+mv ~/jlkang/genome_and_gff/others/longest_pep/*.fas ./
+```
+### 接下来可以开始同源基因的查找
