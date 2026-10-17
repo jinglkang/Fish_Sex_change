@@ -73,8 +73,8 @@ sbatch orthofinder.job
 #SBATCH -N 1 # 请求节点数
 #SBATCH -n 100 # 请求核心数
 #SBATCH --gres=gpu:0 # 请求gpu数
-#SBATCH -o logs/%j.tblastn_Trab # 标准输出文件
-#SBATCH -e logs/%j.tblastn_Trab # 错误输出文件
+#SBATCH -o logs/%j.orthofinder # 标准输出文件
+#SBATCH -e logs/%j.orthofinder # 错误输出文件
 echo ${SLURM_JOB_NODELIST} # 作业占用节点列表
 echo start on $(date) # 开始时间
 orthofinder -f ./ -t 100 -a 100 # 执行命令
