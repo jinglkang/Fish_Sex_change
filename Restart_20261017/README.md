@@ -1,66 +1,3 @@
-## 基因组下载（Yulong）
-### NCBI获取基因组信息
-首先，利用物种拉丁名获取NCBI相关基因组信息，命令如下
-```bash
-datasets summary genome taxon --inputfile species.txt \
---reference \
---as-json-lines | \
-dataformat tsv genome \
---fields accession,assminfo-name,assminfo-level,assmstats-total-number-of-chromosomes,assmstats-number-of-scaffolds,assmstats-total-sequence-len,assmstats-contig-n50,assmstats-scaffold-n50,annotinfo-status,organism-name \
-> genomes.tsv
-```
-
-其次，根据获取的基因组信息挑选合适的基因组，这里选择了Scaffold N50大于1Mb的基因组作为筛选条件，最终保留了67个基因组。
-
-最后，根据Assembly Accession的号进行下载，命令如下：
-```bash
-datasets download genome accession --inputfile acc.txt \
---include genome,gff3 \
---dehydrated --filename genomes.zip
-
-unzip genomes.zip -d genomes
-
-datasets rehydrate --directory genomes/
-```
-### 基因组注释
-下载的基因组里，其中有17个基因组带注释信息，如下：
-```text
-GCF_001952655.1
-GCF_900324485.3
-GCF_001640805.2
-GCF_036324505.1
-GCF_963584025.1
-GCF_904848185.1
-GCF_963930695.1
-GCF_965226575.1
-GCF_022749685.1
-GCA_054084025.1
-GCF_900880675.2
-GCF_022539595.1
-GCF_030273125.1
-GCF_021347895.1
-GCF_011397635.1
-GCA_045362495.1
-GCF_018320785.1
-```
-
-其余50个基因组则使用Helixer软件进行基因预测，命令如下：
-```bash
-singularity run -B $PWD --nv helixer-docker_latest.sif Helixer.py \
---species "$genome" \
---temporary-dir . \
---batch-size 16 \
---fasta-path "$genome" --lineage vertebrate \
---gff-output-path "$genome".gff3
-```
-### 注释结果评估
-注释的的结果先使用gffread软件提取对应的蛋白序列，然后使用BUSCO v6.1.0软件基于actinopterygii_odb12数据库进行完整性的评估，命令如下：
-```bash
-gffread -g $genome -x $genome.cds -y $genome.pep $genome.gff3
-
-busco -i $genome.pep -m prot -l actinopterygii_odb12 --tar
-```
-
 ## 提取出基因组的每个基因的最长蛋白序列
 Genome_info_download.csv # 下载的基因组信息
 ### 1. 50个自己注释的基因组
@@ -130,9 +67,57 @@ Thalassoma_pavo	24671	24671
 ```
 
 ### 2. 已经有gff注释文件
+里面一些在目录里面，一些在目录外面，把所有的都建立目录并放入目录里面
+- create_dir.pl: 建立并移动fna和gff文件至建立的目录中
+```bash
+# (base) shichuang001@login01 Sat Oct 17 2026 11:33:04 ~/jlkang/genome_and_gff/others
+perl create_dir.pl
+```
 
+进入每个目录，依次产生每个转录本的cds和pep文件
+- Generate_cds_pep.pl
+```bash
+# (base) shichuang001@login01 Sat Oct 17 2026 14:10:19 ~/jlkang/genome_and_gff/others
+perl Generate_cds_pep.pl
+```
 
+提取每个基因最长的蛋白序列
+- Extract_longest_pep_others.pl: 提取最长蛋白
+```bash
+# (base) shichuang001@login01 Sat Oct 17 2026 15:30:01 ~/jlkang/genome_and_gff/others
+mkdir longest_pep longest_nuc
+perl Extract_longest_pep_others.pl
+```
 
+比较筛选前后的数量变化
+- Compare_pep_nb_others.pl
+```bash
+# (base) shichuang001@login01 Sat Oct 17 2026 22:38:11 ~/jlkang/genome_and_gff/others
+perl Compare_pep_nb_others.pl
+```
 
-
+```txt
+GCA_045362495.1	Lethrinus_nebulosus	30201	24231
+GCA_054084025.1	Thalassoma_bifasciatum	41049	23309
+GCF_001640805.2	Lates_calcarifer	45530	25237
+GCF_001952655.1	Monopterus_albus	40441	21462
+GCF_011397635.1	Epinephelus_fuscoguttatus	45301	23982
+GCF_018320785.1	Cheilinus_undulatus	40068	23382
+GCF_021347895.1	Acanthochromis_polyacanthus	46390	23982
+GCF_022539595.1	Amphiprion_ocellaris	47359	23152
+GCF_022749685.1	Semicossyphus_pulcher	32053	22720
+GCF_030273125.1	Centropristis_striata	36638	25038
+GCF_036324505.1	Eleginops_maclovinus	39251	22675
+GCF_040954835.1	Lepisosteus_oculatus	48447	20712
+GCF_052040795.2	Danio_rerio	94111	28558
+GCF_053564925.1	Oryzias_latipes	62289	23629
+GCF_900324485.3	Mastacembelus_armatus	42615	22612
+GCF_900880675.2	Sparus_aurata	53177	26117
+GCF_901000725.3	Takifugu_rubripes	46842	22161
+GCF_904848185.1	Acanthopagrus_latus	54718	23946
+GCF_963584025.1	Labrus_mixtus	39971	22904
+GCF_963930695.1	Labrus_bergylta	42708	23571
+GCF_964276395.1	Gasterosteus_aculeatus	59192	22929
+GCF_965226575.1	Pagrus_pagrus	44931	24345
+```
 
