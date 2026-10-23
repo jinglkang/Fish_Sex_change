@@ -21,3 +21,4 @@ unzip genomes_20261023_annotated.zip -d genomes_20261023_annotated
 
 nohup datasets rehydrate --directory genomes_20261023_annotated/ > datasets_download.log 2>&1 &
 ```
+其中，Labroides dimidiatus来自于Kang et al. BMC Biology
