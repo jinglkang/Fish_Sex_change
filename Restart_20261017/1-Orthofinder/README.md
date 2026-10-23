@@ -62,9 +62,9 @@ Removal log:      longest_pep_2/removed_sequences.tsv
 ```bash
 # (orthofinder_env) shichuang001@login01 Sun Oct 18 2026 01:11:08 ~/jlkang/genome_and_gff/sex_change/longest_pep/longest_pep_2
 sbatch orthofinder.job
-# Submitted batch job 891431
+# Submitted batch job 893022
 ```
-
+**注意：序列中如果存在被判定为核苷酸序列以及"."，会导致orthofinder一直停留在diamond建库的步骤**
 - orthofinder.job
 ```txt
 #!/bin/bash
@@ -77,6 +77,12 @@ sbatch orthofinder.job
 #SBATCH -e logs/%j.orthofinder # 错误输出文件
 echo ${SLURM_JOB_NODELIST} # 作业占用节点列表
 echo start on $(date) # 开始时间
-orthofinder -f ./ -t 100 -a 100 # 执行命令
+orthofinder -f ./ -t 100 # 执行命令
 echo end on $(date) # 结束时间
 ```
+
+**orthofinder跑完之后，根据其结果的物种数在iTol里面画图，显示各个物种的性状**
+- trait_annotation_itol_corrected.txt
+结果发现非性逆转物种太少了，需要增加非性逆转的鱼类
+**重新筛选：专注于鲈形目(Perciformes)性别逆转物种。首先，全部基因组的N50必须大于1M；然后，在这些基因组里面被报道有性逆转全部留下；最后，剩下的雌雄异体物种各科每个属只保留一个物种的基因组（假如有多个物种基因组，选择N50最大的那个）**
+- filter_genome.pl
