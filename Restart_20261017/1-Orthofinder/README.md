@@ -65,6 +65,41 @@ sbatch orthofinder.job
 # Submitted batch job 893022
 ```
 **注意：序列中如果存在被判定为核苷酸序列以及"."，会导致orthofinder一直停留在diamond建库的步骤**
+
+```bash
+# (base) shichuang001@login01 Sat Oct 24 2026 00:02:27 ~/jlkang/genome_and_gff/sex_change/longest_pep/longest_pep_2
+mkdir Revise
+perl temp1.pl
+```
+
+- temp1.pl
+```
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my @fas=<*.fas>;
+foreach my $fa (@fas) {
+        my $new="Revise/".$fa."1";
+        open NEW, ">$new" or die "can not open $new\n";
+        open FA, $fa or die "can not open $fa\n";
+        while (<FA>) {
+                chomp;
+                if (/>/) {
+                        print NEW "$_\n";
+                } else {
+                        s/\.//g;
+                        print NEW "$_\n";
+                }
+        }
+        # print "mv $new Revise/$fa";
+        system("mv $new Revise/$fa");
+}
+```
+
+
+
+
 - orthofinder.job
 ```txt
 #!/bin/bash
